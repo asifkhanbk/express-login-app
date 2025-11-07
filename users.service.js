@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const { json } = require('express');
 const saltRounds = 10
+const jwtUtil = require('./jwt.utils')
+
 
 const users = [
     {"username":"Admin", "password": "password"}
@@ -34,7 +36,8 @@ async function login(userLoginData) {
     try{
         const isMatch = await bcrypt.compare(userLoginData.password , user.password)
         if (isMatch){
-            return(`${user.username} logged in`)
+            const jwt = jwtUtil.generateToken(user)
+            return(jwt)
         }else{
             return(`Password error`)
         }

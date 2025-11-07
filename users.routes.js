@@ -11,10 +11,6 @@ router.get('/',(req,res) => {
     return res.send("Hello World")
 })
 
-const users = [
-    {"username":"Admin", "password": "password"}
-]
-
 router.post('/signup',userController.signup)
 
 router.get('/users' , userController.getAllUsers)
