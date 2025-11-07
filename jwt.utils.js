@@ -1,7 +1,8 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
-const ACCESS_TOKEN_SECRET = "snfijbfijbfijbfijqbfqfkq"
-const REFRESH_TOKEN_SECRET = "ijdnajndjandjnajdajknkjn"
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET
 
 async function generateToken(user){
     try{
