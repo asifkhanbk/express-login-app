@@ -14,9 +14,9 @@ async function signup (userData) {
     try{
             const hashedPassword = await bcrypt.hash(userData.password,saltRounds)
             users.push({username: userData.username , password: hashedPassword})
-            return await`${userData.username} created`
+            return `${userData.username} created`
         }catch (error){
-            return`Unable to register ${userData.username}`
+            return error
         };
     }
     
@@ -25,7 +25,7 @@ async function getAllUsers(){
         return users
     }
     catch (error){
-        return `Unable to return users`
+        return error
     }
 }
 
@@ -42,15 +42,25 @@ async function login(userLoginData) {
             return(`Password error`)
         }
     }catch (error){
-        return(`Login Error`)
+        return error
     }
 
+}
+
+async function getMe(token) {
+    try{
+        return await jwtUtil.getUser(token)
+    } catch (error){
+        return error
+    }
+    
 }
 
 
 module.exports = {
     signup,
     getAllUsers,
-    login
+    login,
+    getMe
 }
 

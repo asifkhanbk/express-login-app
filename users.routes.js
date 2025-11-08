@@ -19,4 +19,6 @@ router.get('/users',authRequired , userController.getAllUsers)
 
 router.post('/login', userController.login)
 
+router.get('/me', authRequired, userController.getMe)
+
 module.exports = router
