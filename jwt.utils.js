@@ -1,6 +1,5 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET
 
@@ -27,7 +26,7 @@ async function getUser(token) {
     try{
         const payload = await jwt.verify(token, ACCESS_TOKEN_SECRET)
         const username = payload.username
-        return `${username} signed in`
+        return username
     } catch (error){
         return error
     }

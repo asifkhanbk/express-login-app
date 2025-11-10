@@ -3,10 +3,10 @@ const userService = require('./users.service')
 exports.signup = async (req, res, next) =>{
     try{
         const response = await userService.signup(req.body)
-        res.status(201).send(response)
+        res.send(response)
         next()
     } catch (error) {
-        res.status(400).send(error)
+        res.send(error)
     }
 }
 
@@ -16,7 +16,7 @@ exports.getAllUsers = async (req,res,next) =>{
         res.status(200).send(response)
         next()
     } catch (error){
-        res.status(404).send(error)
+        res.send(error)
     }
 }
 

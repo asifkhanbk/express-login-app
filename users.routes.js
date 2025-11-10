@@ -15,7 +15,7 @@ router.get('/',(req,res) => {
 
 router.post('/signup',userController.signup)
 
-router.get('/users',authRequired , userController.getAllUsers)
+router.get('/users', authRequired, userController.getAllUsers)
 
 router.post('/login', userController.login)
 

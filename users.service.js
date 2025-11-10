@@ -1,20 +1,22 @@
-const bcrypt = require('bcrypt');
-const { json } = require('express');
-const saltRounds = 10
 const jwtUtil = require('./jwt.utils')
+const User = require('./user.model')
 
 
-const users = [
-    {"username":"Admin", "password": "password"}
-]
-
+const users = []
+var idCounter = 1
 async function signup (userData) {
-    if (users.some(user => user.username === userData.username)) return res.status(404).send(`User with username ${userData.username} already exists`);
+    
+    if (users.some(user => user.username === userData.username)) {
+        return(`User with username ${userData.username} already exists`);
+    }
+        
 
-    try{
-            const hashedPassword = await bcrypt.hash(userData.password,saltRounds)
-            users.push({username: userData.username , password: hashedPassword})
-            return `${userData.username} created`
+    try{    
+            const user = new User(id =idCounter,  username = userData.username, email = userData.email, password = userData.password)
+            user.setPassword(password)
+            users.push(user)
+            idCounter++            
+            return user
         }catch (error){
             return error
         };
@@ -30,11 +32,11 @@ async function getAllUsers(){
 }
 
 async function login(userLoginData) {
-    const user = users.find(user => user.username === userLoginData.username)
+    const user = users.find(user => user.username === userLoginData.username)    
     if (!user) return(`${userLoginData.username} not found`);
 
     try{
-        const isMatch = await bcrypt.compare(userLoginData.password , user.password)
+        const isMatch = await user.validatePassword(userLoginData.password)
         if (isMatch){
             const jwt = jwtUtil.generateToken(user)
             return(jwt)
@@ -49,12 +51,16 @@ async function login(userLoginData) {
 
 async function getMe(token) {
     try{
-        return await jwtUtil.getUser(token)
+        const username = await jwtUtil.getUser(token)
+        const user = users.find(user => user.username == username)
+        return user
     } catch (error){
         return error
     }
     
 }
+
+
 
 
 module.exports = {
